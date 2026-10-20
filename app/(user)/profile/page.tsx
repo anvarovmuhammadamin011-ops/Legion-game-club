@@ -4,7 +4,6 @@ import { useApp } from '@/context/app-context'
 import { Card, Button, Badge, StatCard, PageHeader } from '@/components/ui/primitives'
 import { formatSom } from '@/lib/format'
 import {
-  Wallet,
   Star,
   Clock,
   Copy,
@@ -59,12 +58,6 @@ export default function ProfilePage() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
-        <StatCard
-          label={t('balance')}
-          value={formatSom(currentUser.balance)}
-          hint={t('som')}
-          icon={<Wallet className="h-5 w-5" />}
-        />
         <StatCard
           label={t('bonusPoints')}
           value={`${currentUser.bonusPoints}`}

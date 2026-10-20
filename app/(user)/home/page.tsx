@@ -12,6 +12,7 @@ import {
   Map as MapIcon,
   ArrowRight,
   Cpu,
+  Gift,
 } from 'lucide-react'
 
 export default function HomePage() {

@@ -64,9 +64,7 @@ interface AppContextValue extends AppState {
   createBooking: (data: Omit<Booking, 'id' | 'status' | 'createdAt' | 'userId' | 'userName'>) => boolean
   confirmBooking: (id: string) => void
   rejectBooking: (id: string) => void
-  powerComputer: (id: string, state: 'on' | 'off') => void
   setMaintenanceMode: (id: string, on: boolean) => void
-  runGroupAction: (zone: string, action: 'on' | 'off') => void
   sellBarProduct: (productId: string, qty: number) => void
   addBarProduct: (data: Omit<BarProduct, 'id'>) => void
   addExpense: (data: Omit<Expense, 'id'>) => void
@@ -194,7 +192,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         phone: phone.trim(),
         password,
         role: 'user',
-        balance: 20000,
         bonusPoints: 0,
         referralCode: name.slice(0, 4).toUpperCase() + '2026',
         favorites: [],
@@ -231,16 +228,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       const bonusEarned = Math.round(data.total * 0.01)
       setState((s) => {
         const updatedUsers = s.users.map((u) =>
-          u.id === user.id
-            ? {
-                ...u,
-                balance:
-                  data.paymentMethod === 'balance'
-                    ? u.balance - data.total
-                    : u.balance,
-                bonusPoints: u.bonusPoints + bonusEarned,
-              }
-            : u,
+          u.id === user.id ? { ...u, bonusPoints: u.bonusPoints + bonusEarned } : u,
         )
         const updatedCurrent = updatedUsers.find((u) => u.id === user.id) ?? null
         return {
@@ -279,13 +267,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const rejectBooking = useCallback((id: string) => {
     setState((s) => {
       const booking = s.bookings.find((b) => b.id === id)
-      const users = booking
-        ? s.users.map((u) =>
-            u.id === booking.userId && booking.paymentMethod === 'balance'
-              ? { ...u, balance: u.balance + booking.total }
-              : u,
-          )
-        : s.users
+      const users = s.users
       return {
         ...s,
         bookings: s.bookings.map((b) =>
@@ -305,19 +287,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     showNotification('Bron rad etildi, pul qaytarildi', 'warning')
   }, [showNotification, state.currentUser])
 
-  const powerComputer = useCallback((id: string, st: 'on' | 'off') => {
-    setState((s) => ({
-      ...s,
-      computers: s.computers.map((c) =>
-        c.id === id
-          ? { ...c, status: st === 'off' ? 'available' : c.status, temp: st === 'off' ? 34 : c.temp }
-          : c,
-      ),
-      auditLog: [audit(`Kompyuter ${id} ${st === 'on' ? 'yoqildi' : "o'chirildi"}`), ...s.auditLog],
-    }))
-    showNotification(`${id} ${st === 'on' ? 'yoqildi' : "o'chirildi"}`, 'info')
-  }, [showNotification, state.currentUser])
-
   const setMaintenanceMode = useCallback((id: string, on: boolean) => {
     setState((s) => ({
       ...s,
@@ -326,18 +295,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       ),
     }))
     showNotification(on ? 'Texnik rejim yoqildi' : 'Texnik rejim o‘chirildi', 'info')
-  }, [showNotification])
-
-  const runGroupAction = useCallback((zone: string, action: 'on' | 'off') => {
-    setState((s) => ({
-      ...s,
-      computers: s.computers.map((c) =>
-        c.zone === zone && c.status !== 'booked'
-          ? { ...c, status: action === 'off' ? 'available' : c.status }
-          : c,
-      ),
-    }))
-    showNotification(`${zone} zonasi guruhli amal bajarildi`, 'info')
   }, [showNotification])
 
   const sellBarProduct = useCallback((productId: string, qty: number) => {
@@ -401,11 +358,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         return s
       }
       const blocks = Math.floor(user.bonusPoints / 100)
-      const cash = blocks * 15000
       const users = s.users.map((u) =>
-        u.id === user.id
-          ? { ...u, balance: u.balance + cash, bonusPoints: u.bonusPoints - blocks * 100 }
-          : u,
+        u.id === user.id ? { ...u, bonusPoints: u.bonusPoints - blocks * 100 } : u,
       )
       return { ...s, users, currentUser: users.find((u) => u.id === user.id) ?? user }
     })
@@ -445,9 +399,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     createBooking,
     confirmBooking,
     rejectBooking,
-    powerComputer,
     setMaintenanceMode,
-    runGroupAction,
     sellBarProduct,
     addBarProduct,
     addExpense,

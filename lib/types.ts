@@ -34,7 +34,6 @@ export interface User {
   phone: string
   password: string
   role: Role
-  balance: number
   bonusPoints: number
   referralCode: string
   favorites: string[]

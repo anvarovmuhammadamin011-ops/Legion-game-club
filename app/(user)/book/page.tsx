@@ -63,8 +63,7 @@ function BookingWizard() {
       paymentMethod: payment,
     })
     if (ok) {
-      if (useBonus) redeemBonusPoints()
-      router.push('/home')
+        router.push('/home')
     }
   }
 
@@ -239,11 +238,8 @@ function BookingWizard() {
                 <div className="grid grid-cols-2 gap-2.5">
                   {PAYMENTS.map((p) => {
                     const Icon = p.icon
-                    const active = payment === p.id
-                    const disabled =
-                      p.id === 'balance' &&
-                      currentUser !== null &&
-                      currentUser.balance < total
+              const active = payment === p.id
+              const disabled = false
                     return (
                       <button
                         key={p.id}
