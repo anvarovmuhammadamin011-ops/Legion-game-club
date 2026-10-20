@@ -5,14 +5,7 @@ import { Card, PageHeader, Button, Badge } from '@/components/ui/primitives'
 import { COMPUTER_TYPES } from '@/lib/mock-data'
 import { STATUS_META } from '@/lib/status'
 import { useState } from 'react'
-import {
-  Power,
-  PowerOff,
-  Wrench,
-  Thermometer,
-  Clock,
-  Layers,
-} from 'lucide-react'
+import { Wrench, Thermometer, Clock } from 'lucide-react'
 
 const ZONES = ['VIP', 'Gaming Pro', 'Standard', 'Console']
 
@@ -20,9 +13,7 @@ export default function ComputersPage() {
   const {
     t,
     computers,
-    powerComputer,
     setMaintenanceMode,
-    runGroupAction,
   } = useApp()
   const [zoneFilter, setZoneFilter] = useState<string>('all')
 
@@ -37,37 +28,6 @@ export default function ComputersPage() {
         title={t('computerManagement')}
         subtitle={t('remoteControl')}
       />
-
-      {/* Group actions */}
-      <Card className="mb-4 p-4">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-2 text-sm font-medium">
-            <Layers className="h-4 w-4 text-primary" />
-            {t('groupActions')}
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {ZONES.map((z) => (
-              <div key={z} className="flex items-center gap-1 rounded-lg bg-secondary p-1">
-                <span className="px-2 text-xs font-medium">{z}</span>
-                <button
-                  onClick={() => runGroupAction(z, 'on')}
-                  className="inline-flex h-7 w-7 items-center justify-center rounded-md text-success hover:bg-success/15"
-                  aria-label={`Power on ${z}`}
-                >
-                  <Power className="h-3.5 w-3.5" />
-                </button>
-                <button
-                  onClick={() => runGroupAction(z, 'off')}
-                  className="inline-flex h-7 w-7 items-center justify-center rounded-md text-destructive hover:bg-destructive/15"
-                  aria-label={`Power off ${z}`}
-                >
-                  <PowerOff className="h-3.5 w-3.5" />
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Card>
 
       {/* Zone filter */}
       <div className="mb-4 flex flex-wrap gap-2">
@@ -115,34 +75,14 @@ export default function ComputersPage() {
                 </span>
               </div>
 
-              <div className="mt-4 flex gap-2">
+              <div className="mt-4 flex justify-end">
                 <Button
-                  variant="outline"
+                  variant={c.status === 'maintenance' ? 'danger' : 'outline'}
                   size="sm"
-                  className="flex-1"
-                  onClick={() => powerComputer(c.id, 'on')}
-                >
-                  <Power className="h-4 w-4" />
-                  {t('on')}
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="flex-1"
-                  onClick={() => powerComputer(c.id, 'off')}
-                >
-                  <PowerOff className="h-4 w-4" />
-                  {t('off')}
-                </Button>
-                <Button
-                  variant={c.status === 'maintenance' ? 'danger' : 'ghost'}
-                  size="icon"
-                  onClick={() =>
-                    setMaintenanceMode(c.id, c.status !== 'maintenance')
-                  }
-                  aria-label="Maintenance"
+                  onClick={() => setMaintenanceMode(c.id, c.status !== 'maintenance')}
                 >
                   <Wrench className="h-4 w-4" />
+                  {c.status === 'maintenance' ? 'Texnik ko‘rikni tugatish' : 'Texnik ko‘rikka belgilash'}
                 </Button>
               </div>
             </Card>

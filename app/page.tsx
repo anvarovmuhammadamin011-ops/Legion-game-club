@@ -50,7 +50,7 @@ export default function LoginPage() {
             <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
               <Gamepad2 className="h-5 w-5" />
             </span>
-            <span className="font-heading text-lg font-bold">Prime Club</span>
+            <span className="font-heading text-lg font-bold">Legion Game Club</span>
           </div>
 
           <h1 className="font-heading text-2xl font-bold tracking-tight">

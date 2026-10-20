@@ -7,12 +7,9 @@ import { COMPUTER_TYPES } from '@/lib/mock-data'
 import { STATUS_META } from '@/lib/status'
 import { formatSom } from '@/lib/format'
 import {
-  Wallet,
-  Star,
   Clock,
   CalendarPlus,
   Map as MapIcon,
-  Gift,
   ArrowRight,
   Cpu,
 } from 'lucide-react'
@@ -58,21 +55,7 @@ export default function HomePage() {
       </Card>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <StatCard
-          label={t('balance')}
-          value={`${formatSom(currentUser.balance)}`}
-          hint={t('som')}
-          icon={<Wallet className="h-5 w-5" />}
-          tone="primary"
-        />
-        <StatCard
-          label={t('bonusPoints')}
-          value={`${currentUser.bonusPoints}`}
-          hint="100 ball = 15,000"
-          icon={<Star className="h-5 w-5" />}
-          tone="gold"
-        />
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-2">
         <StatCard
           label="O'ynalgan soat"
           value={`${currentUser.hoursPlayed}`}
