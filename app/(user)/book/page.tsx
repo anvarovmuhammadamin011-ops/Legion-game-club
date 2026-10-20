@@ -7,16 +7,11 @@ import { Card, Button, Badge, PageHeader } from '@/components/ui/primitives'
 import { COMPUTER_TYPES, EXTRAS } from '@/lib/mock-data'
 import { formatSom } from '@/lib/format'
 import { cn } from '@/lib/utils'
-import { Check, Cpu, Wallet, CreditCard, Star } from 'lucide-react'
+import { Check, Cpu, Wallet } from 'lucide-react'
 
 const HOURS = [1, 2, 3, 4, 5, 6, 8, 12]
 const TIMES = ['10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00']
-const PAYMENTS = [
-  { id: 'balance', label: 'Balans', icon: Wallet },
-  { id: 'click', label: 'Click', icon: CreditCard },
-  { id: 'payme', label: 'Payme', icon: CreditCard },
-  { id: 'uzcard', label: 'Uzcard', icon: CreditCard },
-]
+const PAYMENTS = [{ id: 'cash', label: 'Naqd to\'lov', icon: Wallet }]
 
 const STEPS = ['Vaqt tanlash', "Qo'shimcha xizmatlar", "To'lov"]
 
@@ -33,8 +28,8 @@ function BookingWizard() {
   const [time, setTime] = useState('18:00')
   const [hours, setHours] = useState(2)
   const [extras, setExtras] = useState<string[]>([])
-  const [payment, setPayment] = useState('balance')
-  const [useBonus, setUseBonus] = useState(false)
+  const [payment, setPayment] = useState('cash')
+  const useBonus = false
 
   const availablePcs = useMemo(
     () => computers.filter((c) => c.status === 'available'),
@@ -49,9 +44,8 @@ function BookingWizard() {
     (sum, id) => sum + (EXTRAS.find((e) => e.id === id)?.price ?? 0),
     0,
   )
-  const bonusBlocks = currentUser ? Math.floor(currentUser.bonusPoints / 100) : 0
-  const bonusDiscount = useBonus ? bonusBlocks * 15000 : 0
-  const total = Math.max(0, baseCost + extrasCost - bonusDiscount)
+  const bonusDiscount = 0
+  const total = baseCost + extrasCost
 
   const toggleExtra = (id: string) =>
     setExtras((s) => (s.includes(id) ? s.filter((e) => e !== id) : [...s, id]))
@@ -268,50 +262,10 @@ function BookingWizard() {
                     )
                   })}
                 </div>
-                {payment === 'balance' && currentUser && (
-                  <p className="mt-3 text-sm text-muted-foreground">
-                    Mavjud balans:{' '}
-                    <span className="text-mono-num font-medium text-foreground">
-                      {formatSom(currentUser.balance)} {t('som')}
-                    </span>
-                  </p>
-                )}
+
               </Card>
 
-              {bonusBlocks > 0 && (
-                <Card className="p-5">
-                  <button
-                    onClick={() => setUseBonus((s) => !s)}
-                    className="flex w-full items-center justify-between"
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-gold/20 text-gold">
-                        <Star className="h-5 w-5" />
-                      </span>
-                      <div className="text-left">
-                        <p className="font-medium">Bonus chegirma</p>
-                        <p className="text-sm text-muted-foreground">
-                          {bonusBlocks * 100} ball = {formatSom(bonusBlocks * 15000)}{' '}
-                          {t('som')}
-                        </p>
-                      </div>
-                    </div>
-                    <span
-                      className={cn(
-                        'flex h-6 w-11 items-center rounded-full p-0.5 transition-colors',
-                        useBonus ? 'bg-primary' : 'bg-secondary',
-                      )}
-                    >
-                      <span
-                        className={cn(
-                          'h-5 w-5 rounded-full bg-card transition-transform',
-                          useBonus && 'translate-x-5',
-                        )}
-                      />
-                    </span>
-                  </button>
-                </Card>
-              )}
+
             </>
           )}
         </div>

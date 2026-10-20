@@ -3,7 +3,7 @@ import type { Lang } from './types'
 type Dict = Record<string, string>
 
 const uz: Dict = {
-  appName: 'Prime Club',
+  appName: 'Legion Game Club',
   tagline: 'Premium gaming klubi',
   login: 'Kirish',
   register: "Ro'yxatdan o'tish",
@@ -40,7 +40,7 @@ const uz: Dict = {
 }
 
 const ru: Dict = {
-  appName: 'Prime Club',
+  appName: 'Legion Game Club',
   tagline: 'Премиум гейминг клуб',
   login: 'Войти',
   register: 'Регистрация',
@@ -77,7 +77,7 @@ const ru: Dict = {
 }
 
 const en: Dict = {
-  appName: 'Prime Club',
+  appName: 'Legion Game Club',
   tagline: 'Premium gaming club',
   login: 'Sign in',
   register: 'Sign up',

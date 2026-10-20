@@ -25,7 +25,7 @@ export const COMPUTER_TYPES: Record<ComputerType, ComputerTypeInfo> = {
   GAMING_PRO: {
     id: 'GAMING_PRO',
     name: 'Gaming Pro',
-    pricePerHour: 18000,
+    pricePerHour: 25000,
     gpu: 'RTX 4080',
     ram: '32GB DDR5',
     display: '27" QHD 165Hz',
@@ -63,10 +63,8 @@ const STATUSES: Computer['status'][] = [
 function makeComputers(): Computer[] {
   const list: Computer[] = []
   const config: { type: ComputerType; count: number; row: number }[] = [
-    { type: 'VIP', count: 3, row: 0 },
-    { type: 'GAMING_PRO', count: 8, row: 1 },
-    { type: 'STANDARD', count: 8, row: 2 },
-    { type: 'PS5', count: 3, row: 3 },
+    { type: 'VIP', count: 20, row: 0 },
+    { type: 'PS5', count: 2, row: 1 },
   ]
   let idx = 1
   for (const c of config) {

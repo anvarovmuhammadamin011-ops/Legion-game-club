@@ -12,7 +12,7 @@ const jetbrains = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Prime Club — Gaming Club Management',
+  title: 'Legion Game Club — Gaming Club Management',
   description:
     "O'zbekiston premium gaming klubi uchun zamonaviy boshqaruv tizimi",
   generator: 'v0.app',

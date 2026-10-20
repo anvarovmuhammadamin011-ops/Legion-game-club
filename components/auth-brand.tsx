@@ -25,7 +25,7 @@ export function AuthBrand() {
           <Gamepad2 className="h-6 w-6" />
         </span>
         <span className="font-heading text-xl font-bold tracking-tight">
-          Prime Club
+          Legion Game Club
         </span>
       </div>
 
@@ -53,7 +53,7 @@ export function AuthBrand() {
       </div>
 
       <p className="relative text-sm text-primary-foreground/60">
-        © 2026 Prime Club. Barcha huquqlar himoyalangan.
+        © 2026 Legion Game Club. Barcha huquqlar himoyalangan.
       </p>
     </div>
   )

@@ -8,7 +8,7 @@ import type { Role, Lang } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { Notifications } from '@/components/notifications'
 import { Badge } from '@/components/ui/primitives'
-import { formatSom } from '@/lib/format'
+
 import {
   Home,
   Map,
@@ -18,7 +18,6 @@ import {
   MonitorSmartphone,
   Coffee,
   ClipboardCheck,
-  Wallet,
   Users,
   Tag,
   DollarSign,
@@ -53,7 +52,7 @@ const NAV: Record<Role, NavItem[]> = {
   ],
   superadmin: [
     { href: '/superadmin', labelKey: 'dashboard', icon: LayoutDashboard },
-    { href: '/superadmin/finance', labelKey: 'finance', icon: Wallet },
+    { href: '/superadmin/finance', labelKey: 'finance', icon: DollarSign },
     { href: '/superadmin/staff', labelKey: 'staff', icon: Users },
     { href: '/superadmin/promotions', labelKey: 'promotions', icon: Tag },
     { href: '/superadmin/pricing', labelKey: 'pricing', icon: DollarSign },
@@ -129,7 +128,7 @@ export function AppShell({
                 <Gamepad2 className="h-5 w-5" />
               </span>
               <span className="font-heading text-lg font-bold tracking-tight">
-                Prime Club
+                Legion Game Club
               </span>
             </Link>
           </div>
@@ -165,14 +164,7 @@ export function AppShell({
           </nav>
 
           <div className="flex items-center gap-1.5">
-            {role === 'user' && (
-              <div className="hidden items-center gap-1.5 rounded-lg bg-secondary px-3 py-1.5 sm:flex">
-                <Wallet className="h-4 w-4 text-primary" />
-                <span className="text-mono-num text-sm font-semibold">
-                  {formatSom(currentUser.balance)}
-                </span>
-              </div>
-            )}
+
             <button
               onClick={cycleLang}
               className="inline-flex h-9 items-center gap-1 rounded-lg px-2 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground"
@@ -208,14 +200,6 @@ export function AppShell({
         {/* Mobile drawer */}
         {open && (
           <nav className="border-t border-border bg-background px-4 py-3 lg:hidden">
-            {role === 'user' && (
-              <div className="mb-3 flex items-center justify-between rounded-lg bg-secondary px-3 py-2 sm:hidden">
-                <span className="text-sm text-muted-foreground">{t('balance')}</span>
-                <span className="text-mono-num text-sm font-semibold">
-                  {formatSom(currentUser.balance)} {t('som')}
-                </span>
-              </div>
-            )}
             <div className="flex flex-col gap-1">
               {items.map((item) => {
                 const active =

@@ -81,7 +81,7 @@ interface AppContextValue extends AppState {
 
 const AppContext = createContext<AppContextValue | null>(null)
 
-const STORAGE_KEY = 'prime-club-state-v1'
+const STORAGE_KEY = 'legion-game-club-state-v2'
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<AppState>({
@@ -219,10 +219,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     (data: Omit<Booking, 'id' | 'status' | 'createdAt' | 'userId' | 'userName'>) => {
       const user = state.currentUser
       if (!user) return false
-      if (data.paymentMethod === 'balance' && user.balance < data.total) {
-        showNotification('Balansda mablag‘ yetarli emas', 'error')
-        return false
-      }
+      if (data.paymentMethod !== 'cash') return false
       const booking: Booking = {
         ...data,
         id: uid('b'),
